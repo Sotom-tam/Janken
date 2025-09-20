@@ -1,9 +1,4 @@
-// const popoverTriggerList = document.querySelectorAll(
-//   '[data-bs-toggle="popover"]'
-// );
-// const popoverList = [...popoverTriggerList].map(
-//   (popoverTriggerEl) => new bootstrap.Popover(popoverTriggerEL)
-// );
+//I like to start by declaring all the declarables
 let human = document.getElementById("score");
 let computer = document.getElementById("computerScore");
 let humanScore = 0;
@@ -18,11 +13,14 @@ y = document.querySelectorAll(".option");
 // test.addEventListener("click", playRound());
 //This function is to randomly choose an item in the options array
 function getComputerChoice(choices) {
+  //This refreshes the styling for the computer game effects
+  //so it clears all before showing the new one the user clicked
   let i = document.querySelectorAll(".comp");
   i.forEach(function (x) {
     x.style.display = "none";
   });
-  //this is to help with the game effects
+  //this is to help with the game effects, rockComp, paperComp, Comp is common but the id's are unique,
+  //basically the same thing I did with the human game effects
   let a = "Comp";
   //this generates a random decimal between 0 and 1
   let x = Math.random();
@@ -35,21 +33,17 @@ function getComputerChoice(choices) {
   //this is to select the graphic that shows depending on the option that's chosen
   let b = computerChoice + a;
   //console.log(`${x}, ${y}, ${z},${computerChoice}`);
+  //showing the game effects
   let s = document.getElementById(`${b}`);
   s.style.display = "block";
-  console.log(b, s);
   return computerChoice;
 }
-//testing out the first function
-//let result = getComputerChoice(options);
-
-//This function is supposed to get us what the human chooses
-//It's triggered by the push of the button
 
 //this is how I trigger the human choice
 //using for each to replace a for loop
 //then I'll add the event listener for every btn with the class .option
-
+//This function is supposed to get us what the human chooses
+//It's triggered by the push of the button
 y.forEach(function (x) {
   x.addEventListener("click", function () {
     humanChoice = this.childNodes[4].innerText;
@@ -57,29 +51,45 @@ y.forEach(function (x) {
     return humanChoice;
   });
 });
-
+//This is for the game effects for the user
 y.forEach(function (x) {
+  //This gets the bigger svgs of rock paper scissors
   let a = document.querySelectorAll(".hand");
+  //So when user clicks their option it triggers the game effects as well
+  //Rock should trigger the rock svg, so I had to give them specific ids
   x.addEventListener("click", function () {
+    //the computer choice functions runs here
+    //it has it's own game effects, this is so the user effects and computer effects show at thesame time
     getComputerChoice(options);
+    //This line below just ensures that the previous effect is hidden before a new one is shown
     a.forEach(function (z) {
       z.style.display = "none";
     });
+    //This gets the inner text of the option the user picks
+    //so rock will give rock
     let t = this.childNodes[4].innerText;
+    //SO Rock will  be rock
     let x = t.toLowerCase();
+    //the id's for the game effect svgs are rockHand, or paperHand
     let h = "Hand";
+    //this combines ther user options with Hand (Hand is common or all the id's)
     let y = x + h;
     //showing the bigger svgs
     //Or rather I want to show the one that corresponds to what is clicked
+    //so now I used this to get the svg that correspons to what the user clicked
+    //I'm so proud of this code and super gratefule
+    //Thank you Jesus
     let element = document.getElementById(`${y}`);
+    //shows the game effects
     element.style.display = "block";
-    console.log(x, h, y, element);
+    //don't need this anymore console.log(x, h, y, element);
   });
 });
+//Calling playround when user clicks an option
 y.forEach(function (x) {
   x.addEventListener("click", playRound);
 });
-//function for the countdown when Game starts
+//function for the countdown when Game starts, it's called by the "play" button
 function countDown() {
   document.getElementById("choose").classList.remove("visible");
   //to hide the play button
@@ -102,9 +112,8 @@ function countDown() {
     }
   }, 800);
 }
-//This is for setting Rounds
-function playGame() {}
-
+//This contains everything for the game workings
+//It's called by clicking an option i.e rock , paper,scissors
 function playRound(x, y) {
   x = computerChoice;
   console.log(`Computer: ${x}`);
@@ -172,6 +181,7 @@ function playRound(x, y) {
       x.style.display = "none";
     });
     let a = document.getElementById("play");
+    a.innerText = "Play Again?";
     a.style.display = "block";
   } else if (humanScore === 20) {
     let u = "You";
@@ -182,21 +192,17 @@ function playRound(x, y) {
       x.style.display = "none";
     });
     let a = document.getElementById("play");
+    a.innerText = "Play Again?";
     a.style.display = "block";
   }
 }
+//This just serves to Declare the winner
+//it's called above
 function Declare(x) {
   let y = " Win!";
   document.getElementById("choose").innerText = x + y;
 }
-//This is to show user buttons for options when the user clicks play
-// function show(x) {
-//   //x = document.getElementById("btnGroup").style.display="block";
-//   for (i = 0; i < y.length; i++) {
-//     y[i].style.display = "inline-flex";
-//   }
-// }
-
+//This is the div element that slides open for the "Opening Scenario"
 const overlap = document.getElementById("overlap");
 // this is an observer constructor
 //it runs the function when the game section is in the viewport
